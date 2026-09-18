@@ -16,9 +16,11 @@ dist/
 *.zip
 *.exe
 
-# generated media & runtime state
-output/
-خلفيات/
+# generated media & runtime state (keep the folders, ignore their contents)
+output/*
+!output/.gitkeep
+خلفيات/*
+!خلفيات/.gitkeep
 *.mp4
 *.mp3
 
