@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مُصحَف — مصنع الفيديو القرآني</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#080d18; --panel:rgba(17,25,42,.84); --panel-2:#111b2e; --gold:#d4af37; --gold-2:#f4d87a; --ink:#f5f1e4; --muted:#99a5bb; --line:rgba(212,175,55,.18); --green:#54d68a; --red:#ff6b7a; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:radial-gradient(circle at 10% 0%, #13213b 0, transparent 34%), radial-gradient(circle at 100% 25%, #17243c 0, transparent 30%), var(--bg); font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif; min-height:100vh; }
+    body:before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.18; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:38px 38px; }
+    .container { max-width:1440px; margin:0 auto; padding:28px 22px 48px; position:relative; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:18px 22px; margin-bottom:20px; border:1px solid var(--line); border-radius:24px; background:linear-gradient(135deg,rgba(21,32,54,.92),rgba(10,15,29,.82)); box-shadow:0 18px 60px rgba(0,0,0,.22); }
+    .brand { display:flex; align-items:center; gap:15px; }
+    .mark { width:54px; height:54px; display:grid; place-items:center; border-radius:18px; color:#13100a; background:linear-gradient(145deg,var(--gold-2),var(--gold)); font-family:'Amiri',serif; font-size:36px; font-weight:700; box-shadow:0 8px 25px rgba(212,175,55,.24); }
+    h1,h2,h3,p { margin:0; } h1 { font-family:'Reem Kufi',sans-serif; font-size:24px; letter-spacing:.2px; } h2 { font-size:17px; margin-bottom:15px; } h3 { font-size:15px; }
+    .subtitle { color:var(--muted); font-size:12px; margin-top:4px; }
+    .engine { display:flex; align-items:center; gap:8px; color:var(--green); padding:9px 13px; border:1px solid rgba(84,214,138,.26); background:rgba(84,214,138,.08); border-radius:999px; font-size:12px; white-space:nowrap; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 0 5px rgba(84,214,138,.1); }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
+    .stat,.panel { border:1px solid var(--line); background:var(--panel); backdrop-filter:blur(14px); border-radius:20px; box-shadow:0 10px 32px rgba(0,0,0,.14); }
+    .stat { padding:18px; min-height:106px; position:relative; overflow:hidden; } .stat:after { content:""; position:absolute; inset:auto -18px -24px auto; width:80px; height:80px; border-radius:50%; background:rgba(212,175,55,.08); }
+    .stat-label { color:var(--muted); font-size:12px; } .stat-value { font-size:28px; color:var(--gold-2); font-weight:700; margin-top:8px; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(330px,.65fr); gap:20px; align-items:start; }
+    .panel { padding:20px; margin-bottom:20px; } .panel-title { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:15px; } .panel-title small { color:var(--muted); font-size:11px; font-weight:400; }
+    label { display:block; color:var(--muted); font-size:12px; margin-bottom:7px; } input,select { width:100%; border:1px solid rgba(152,165,187,.2); border-radius:12px; color:var(--ink); background:#0d1627; padding:11px 12px; font:inherit; outline:none; } input:focus,select:focus { border-color:rgba(212,175,55,.65); box-shadow:0 0 0 3px rgba(212,175,55,.1); }
+    select option { background:#0d1627; } .form-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; } .span-2 { grid-column:span 2; }
+    .hint { display:block; margin-top:6px; color:var(--muted); font-size:11px; line-height:1.6; }
+    .segmented { display:flex; gap:8px; flex-wrap:wrap; } .segmented label { margin:0; } .segmented input { display:none; } .segmented span { display:block; cursor:pointer; padding:9px 12px; border:1px solid rgba(152,165,187,.2); border-radius:10px; color:var(--muted); font-size:12px; transition:.2s; } .segmented input:checked + span { color:#1a1508; border-color:var(--gold); background:var(--gold); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:17px; } button { border:0; cursor:pointer; border-radius:11px; padding:11px 15px; color:#15120a; background:var(--gold); font:600 13px inherit; transition:transform .15s,filter .15s,background .15s; } button:hover { transform:translateY(-1px); filter:brightness(1.08); } button:disabled { cursor:not-allowed; opacity:.5; transform:none; } button.secondary { color:var(--ink); background:#19253b; border:1px solid rgba(152,165,187,.18); } button.danger { color:#fff; background:#8d2e40; } button.ghost { color:var(--gold-2); background:transparent; border:1px solid var(--line); }
+    .table-tools { display:flex; gap:10px; align-items:center; margin-bottom:12px; } .table-tools input { flex:1; } .table-tools button { white-space:nowrap; padding:9px 11px; font-size:12px; }
+    .table-wrap { max-height:590px; overflow:auto; border:1px solid rgba(152,165,187,.13); border-radius:13px; } table { width:100%; border-collapse:collapse; font-size:12px; } th { position:sticky; top:0; z-index:1; color:var(--gold-2); background:#132039; font-weight:600; } th,td { padding:10px 9px; text-align:right; border-bottom:1px solid rgba(152,165,187,.1); white-space:nowrap; } td.opening { max-width:300px; overflow:hidden; text-overflow:ellipsis; color:var(--muted); } tbody tr:hover { background:rgba(212,175,55,.055); } tbody tr.selected { background:rgba(212,175,55,.09); } input[type=checkbox] { width:16px; height:16px; accent-color:var(--gold); vertical-align:middle; }
+    .progress-box { margin-top:12px; padding:13px; border:1px solid rgba(152,165,187,.14); border-radius:13px; background:rgba(5,9,17,.36); } .progress-meta { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-bottom:8px; } .bar { height:11px; border-radius:8px; background:#1c2940; overflow:hidden; } .bar > div { height:100%; width:0%; background:linear-gradient(90deg,var(--gold),var(--gold-2)); border-radius:inherit; transition:width .4s ease; }
+    .log { height:220px; overflow:auto; direction:ltr; text-align:left; padding:12px; border:1px solid rgba(152,165,187,.12); background:#070b13; border-radius:12px; color:#c9d1df; font:12px/1.75 Consolas,monospace; white-space:pre-wrap; } .empty { color:var(--muted); text-align:center; padding:28px 12px; font-size:12px; }
+    .gallery { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; } .video-card { border:1px solid rgba(152,165,187,.14); border-radius:14px; overflow:hidden; background:#0b1220; } video { width:100%; display:block; aspect-ratio:9/16; object-fit:cover; background:#050810; } .video-info { padding:10px; } .video-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; color:var(--ink); direction:ltr; text-align:left; } .video-actions { display:flex; gap:7px; margin-top:9px; } .video-actions button { flex:1; padding:8px 6px; font-size:11px; }
+    .up-wrap { margin-top:9px; display:none; } .up-track { height:6px; border-radius:99px; background:rgba(152,165,187,.18); overflow:hidden; } .up-fill { height:100%; width:0; border-radius:99px; background:linear-gradient(90deg,var(--green,#2EC27E),#5ad39b); transition:width .35s ease; } .up-text { display:block; margin-top:5px; font-size:10px; color:var(--muted,#98A5BB); } .up-wrap.is-error .up-fill { background:var(--red,#E01B24); } .up-wrap.is-done .up-text { color:var(--green,#2EC27E); }
+    .notice { padding:12px 14px; border-radius:12px; color:#dacb9b; border:1px solid rgba(212,175,55,.2); background:rgba(212,175,55,.06); line-height:1.8; font-size:12px; margin-top:14px; } .hidden { display:none !important; }
+    input[type=range] { padding:0; height:24px; accent-color:var(--gold); background:transparent; border:0; } label .v { color:var(--ink); font-weight:400; float:left; font-variant-numeric:tabular-nums; }
+    @media (max-width:950px) { .grid { grid-template-columns:repeat(2,1fr); } .layout { grid-template-columns:1fr; } } @media (max-width:600px) { .container { padding:14px 10px 30px; } header { padding:15px; } .engine { display:none; } .grid,.form-grid { grid-template-columns:1fr; } .span-2 { grid-column:span 1; } .gallery { grid-template-columns:1fr; } .table-wrap { max-height:480px; } th,td { padding:8px 6px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="brand"><div class="mark">ق</div><div><h1>مُصحَف</h1><div class="subtitle">مصنع الفيديو القرآني — إنتاج عمودي جاهز للنشر</div></div></div>
+      <div class="engine"><span class="dot"></span><span id="engineText">المحرك متصل</span></div>
+    </header>
+
+    <section class="grid">
+      <div class="stat"><div class="stat-label">إجمالي المقاطع</div><div class="stat-value" id="statTasks">—</div></div>
+      <div class="stat"><div class="stat-label">القارئ المحدد</div><div class="stat-value" id="statReciter" style="font-size:17px">—</div></div>
+      <div class="stat"><div class="stat-label">الخلفيات المتاحة</div><div class="stat-value" id="statBackgrounds">—</div></div>
+      <div class="stat"><div class="stat-label">الفيديوهات المنتجة</div><div class="stat-value" id="statOutputs">—</div></div>
+    </section>
+
+    <div class="layout">
+      <div>
+        <section class="panel">
+          <div class="panel-title"><h2>اختيار المقاطع</h2><small id="selectionCount">لم تحدد أي مقطع</small></div>
+          <div class="table-tools"><input id="search" placeholder="ابحث بالمعرّف أو السورة أو مطلع الآية…"><button class="secondary" id="selectVisible">تحديد الظاهر</button><button class="ghost" id="clearSelection">إلغاء التحديد</button></div>
+          <div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="toggleAll"></th><th>#</th><th>المعرّف</th><th>السورة</th><th>الآيات</th><th>الجزء</th><th>مطلع الآية</th></tr></thead><tbody id="taskRows"><tr><td colspan="7" class="empty">جاري تحميل قاعدة البيانات…</td></tr></tbody></table></div>
+          <div class="notice">ضع صورك أو فيديوهاتك داخل مجلد <strong>خلفيات</strong> بجانب البرنامج. إذا تركت الخلفية عشوائية، سيستخدم النظام خلفية مختلفة تلقائيًا لكل مقطع.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>التنفيذ المباشر</h2><small id="currentTask">بانتظار البدء</small></div>
+          <div class="actions"><button id="startBtn">بدء التوليد</button><button id="stopBtn" class="danger" disabled>إيقاف آمن</button><button id="openOutput" class="secondary">فتح مجلد الفيديوهات</button></div>
+          <div class="progress-box"><div class="progress-meta"><span id="progressLabel">جاهز</span><strong id="progressValue">0%</strong></div><div class="bar"><div id="progressBar"></div></div></div>
+          <div style="margin-top:14px" class="log" id="logBox">بانتظار سجلات المحرك…</div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="panel">
+          <div class="panel-title"><h2>إعدادات التوليد</h2><small>1080×1920 · 30 FPS</small></div>
+          <div class="form-grid">
+            <div class="span-2"><label for="reciter">القارئ</label><select id="reciter"></select></div>
+            <div class="span-2"><label for="background">الخلفية</label><select id="background"><option value="random">عشوائية من مجلد خلفيات</option></select></div>
+            <div><label>ظهور الآيات</label><div class="segmented"><label><input type="radio" name="animation" value="instant" checked><span>فوري</span></label><label><input type="radio" name="animation" value="fade"><span>تدريجي</span></label></div></div>
+            <div><label>تعتيم خلفية الفيديو <b id="bgDimVal" class="v">0%</b></label><input type="range" id="bgDim" min="0" max="90" step="5" value="0"></div>
+            <div class="span-2"><label for="bgFit">ملاءمة الخلفية</label><select id="bgFit"><option value="cover">ملء الشاشة (قصّ الأطراف)</option><option value="blur">احتفاظ بكامل الصورة (شريط ضبابي)</option></select><small class="hint">الخلفية الأفقية تُكبَّر وتُقصّ لتملأ الإطار العمودي؛ النمط الضبابي يعرضها كاملة وبأوضح جودة. الخلفية العمودية تملأ الإطار في الحالتين.</small></div>
+            <div class="span-2"><label for="tafsir">تفسير الآيات في الوصف</label><select id="tafsir"><option value="">بدون تفسير</option></select><small class="hint">يُضاف نص التفسير لكل آية داخل ملف الوصف بجانب الفيديو.</small></div>
+            <div class="span-2"><label><input type="checkbox" id="bgContinue" checked style="width:auto;margin-inline-end:8px"> متابعة الخلفية من حيث انتهى آخر فيديو</label><small class="hint" id="bgUsage">—</small></div>
+            <div class="span-2"><label for="bgMode">توزيع الخلفية على الآيات</label><select id="bgMode"><option value="auto">ذكي — تُعرض كل خلفية حتى تنتهي ثم تنتقل (موصى به)</option><option value="single">خلفية واحدة للمقطع كامل مع تكرارها</option><option value="per_ayah">خلفية مختلفة لكل آية دائمًا</option></select><small class="hint">في الوضع الذكي تبقى الخلفية معروضة ما دام فيها مشهد لم يُعرض بعد، فلا يُقتطع مشهد طويل بعد آية قصيرة، ولا يتكرر مشهد قصير مرارًا: خلفية أطول من المقطع كله تبقى لقطة واحدة متصلة كما كانت دائمًا، وخلفية ثلاثين ثانية تحمل آيتين أو ثلاثًا قبل أن تنتقل، ومقاطع العشر ثوانٍ تتغيّر عند كل آية تقريبًا.</small></div>
+          </div>
+          <div class="actions"><button class="secondary" id="openBackground">فتح مجلد الخلفيات</button><button class="ghost" id="resetBackgrounds">تصفير مؤشرات الخلفيات</button></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>مظهر الآيات</h2><small>يُطبَّق على كل المقاطع</small></div>
+          <div class="form-grid">
+            <div class="span-2"><label for="font">الخط</label><select id="font"></select></div>
+            <div><label>حجم الخط <b id="fontSizeVal" class="v">62</b></label><input type="range" id="fontSize" min="26" max="130" step="2" value="62"></div>
+            <div><label for="textColor">لون النص</label><input type="color" id="textColor" value="#FFFFFF" style="height:42px;padding:3px"></div>
+            <div class="span-2"><label>موضع النص</label><div class="segmented"><label><input type="radio" name="pos" value="top"><span>أعلى</span></label><label><input type="radio" name="pos" value="center" checked><span>وسط</span></label><label><input type="radio" name="pos" value="bottom"><span>أسفل</span></label></div></div>
+            <div class="span-2" style="display:flex;flex-wrap:wrap;gap:14px">
+              <label style="display:flex;align-items:center;gap:7px;color:var(--ink);margin:0"><input type="checkbox" id="tashkeel" checked style="width:16px;height:16px;accent-color:var(--gold)"> التشكيل</label>
+              <label style="display:flex;align-items:center;gap:7px;color:var(--ink);margin:0"><input type="checkbox" id="showNumber" checked style="width:16px;height:16px;accent-color:var(--gold)"> رقم الآية</label>
+              <label style="display:flex;align-items:center;gap:7px;color:var(--ink);margin:0"><input type="checkbox" id="stroke" checked style="width:16px;height:16px;accent-color:var(--gold)"> حدّ خارجي</label>
+              <label style="display:flex;align-items:center;gap:7px;color:var(--ink);margin:0"><input type="checkbox" id="shadow" checked style="width:16px;height:16px;accent-color:var(--gold)"> ظل خلف النص</label>
+              <label style="display:flex;align-items:center;gap:7px;color:var(--ink);margin:0"><input type="checkbox" id="textBg" style="width:16px;height:16px;accent-color:var(--gold)"> خلفية النص</label>
+            </div>
+            <div class="span-2"><label>قوة الظل <b id="shadowOpVal" class="v">55%</b></label><input type="range" id="shadowOpacity" min="0" max="100" step="5" value="55"></div>
+            <div><label for="textBgColor">لون خلفية النص</label><input type="color" id="textBgColor" value="#000000" style="height:42px;padding:3px"></div>
+            <div><label for="textBgStyle">شكل الخلفية</label><select id="textBgStyle"><option value="box" selected>صندوق حول النص</option><option value="bar">شريط عريض</option><option value="lines">خلف كل سطر</option></select></div>
+            <div><label>شفافية خلفية النص <b id="textBgOpVal" class="v">45%</b></label><input type="range" id="textBgOpacity" min="0" max="100" step="5" value="45"></div>
+            <div><label>الحشو الداخلي <b id="textBgPadVal" class="v">0.55</b></label><input type="range" id="textBgPad" min="0.15" max="1.2" step="0.05" value="0.55"></div>
+            <div class="span-2"><label>استدارة الحواف <b id="textBgRadVal" class="v">0.30</b></label><input type="range" id="textBgRadius" min="0" max="0.8" step="0.05" value="0.30"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>معاينة</h2><small>اضبط هنا ثم ولّد</small></div>
+          <div class="form-grid">
+            <div><label for="previewSurah">رقم السورة</label><input id="previewSurah" type="number" min="1" max="114" value="1"></div>
+            <div><label for="previewAyah">رقم الآية</label><input id="previewAyah" type="number" min="1" value="1"></div>
+          </div>
+          <div class="actions"><button class="secondary" id="previewBtn">تحديث المعاينة</button></div>
+          <div id="previewWrap" style="margin-top:12px;border:1px solid rgba(152,165,187,.14);border-radius:13px;overflow:hidden;background:repeating-conic-gradient(#243350 0% 25%,#1a2537 0% 50%) 50%/22px 22px;display:none">
+            <img id="previewImg" alt="معاينة" style="width:100%;max-height:60vh;object-fit:contain;display:block">
+          </div>
+          <div id="previewErr" class="notice" style="display:none"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>التوليد الحر</h2><small>اختياري</small></div>
+          <label style="display:flex;align-items:center;gap:8px;color:var(--ink);margin-bottom:13px"><input type="checkbox" id="customEnabled"> إضافة مقطع مخصص مع التحديد الحالي</label>
+          <div class="form-grid">
+            <div><label for="customSurah">رقم السورة</label><input id="customSurah" type="number" min="1" max="114" value="1"></div>
+            <div><label for="customSurahName">اسم السورة</label><input id="customSurahName" value="سورة الفاتحة"></div>
+            <div><label for="fromAyah">من آية</label><input id="fromAyah" type="number" min="1" value="1"></div>
+            <div><label for="toAyah">إلى آية</label><input id="toAyah" type="number" min="1" value="7"></div>
+            <div class="span-2"><label for="topic">العنوان الموضوعي</label><input id="topic" placeholder="مثال: الهداية والرحمة"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><h2>النشر إلى Google Drive</h2><small id="driveState">غير مرتبط</small></div>
+          <div class="form-grid" style="margin-bottom:18px">
+            <div class="span-2"><small class="hint">يُرفع كل مقطع داخل مجلد خاص به تحت المجلد الرئيسي، ومعه ملف الوصف والتفسير — ملفان في كل مجلد، فلا تختلط المقاطع ببعضها.</small></div>
+            <div class="span-2"><label for="driveRoot">اسم المجلد الرئيسي في Drive</label><input id="driveRoot" type="text" value="مُصحَف" placeholder="مُصحَف"></div>
+            <div><label for="driveClientId">معرّف العميل (Client ID)</label><input id="driveClientId" type="text" placeholder="…apps.googleusercontent.com" style="direction:ltr;text-align:left"></div>
+            <div><label for="driveSecret">سر العميل (Client Secret)</label><input id="driveSecret" type="password" placeholder="GOCSPX-…" style="direction:ltr;text-align:left"></div>
+            <div class="span-2"><label><input type="checkbox" id="driveAuto" style="width:auto;margin-inline-end:8px"> ارفع كل مقطع تلقائيًا فور اكتمال توليده</label></div>
+            <div class="span-2" style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="secondary" id="driveSave" style="flex:1">حفظ الإعدادات</button>
+              <button id="driveConnect" style="flex:1">ربط حساب Google</button>
+              <button class="ghost" id="driveDisconnect" style="flex:1">فصل الحساب</button>
+            </div>
+          </div>
+          <div class="panel-title"><h2>المعرض</h2><button class="ghost" id="refreshGallery" style="padding:7px 10px;font-size:11px">تحديث</button></div>
+          <div class="gallery" id="gallery"><div class="empty" style="grid-column:1/-1">لا توجد فيديوهات منتجة بعد.</div></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let tasks = [], filteredTasks = [], selected = new Set(), pollTimer;
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    async function getJson(url, options) { const response = await fetch(url, options); const data = await response.json(); if (!response.ok) throw new Error(data.error || 'حدث خطأ في الخادم'); return data; }
+    async function boot() {
+      try {
+        const [taskData, reciterData, bgData, fontData, tafsirData] = await Promise.all([getJson('/api/tasks'), getJson('/api/reciters'), getJson('/api/backgrounds'), getJson('/api/fonts'), getJson('/api/tafsirs')]);
+        $('font').innerHTML = fontData.fonts.map(f => `<option value="${escapeHtml(f.id)}">${escapeHtml(f.label)}</option>`).join('');
+        $('tafsir').innerHTML = '<option value="">بدون تفسير</option>' + tafsirData.tafsirs.map(t => `<option value="${escapeHtml(t.id)}">${escapeHtml(t.label)}</option>`).join('');
+        tasks = taskData.tasks; filteredTasks = tasks;
+        $('statTasks').textContent = tasks.length;
+        $('reciter').innerHTML = reciterData.reciters.map((r, i) => `<option ${i === 0 ? 'selected' : ''}>${escapeHtml(r)}</option>`).join('');
+        $('statReciter').textContent = reciterData.reciters[0] || '—';
+        $('reciter').addEventListener('change', () => $('statReciter').textContent = $('reciter').value.split(' — ')[0]);
+        renderBackgrounds(bgData.backgrounds);
+        renderRows(); await refreshGallery(); await refreshDrive(); poll(); runPreview();
+      } catch (error) { $('taskRows').innerHTML = `<tr><td colspan="7" class="empty">${escapeHtml(error.message)}</td></tr>`; setEngine(false); }
+    }
+    function renderRows() {
+      const query = $('search').value.trim().toLowerCase();
+      filteredTasks = tasks.filter(t => [t.id,t.surah_name,t.opening,String(t.index)].join(' ').toLowerCase().includes(query));
+      $('taskRows').innerHTML = filteredTasks.length ? filteredTasks.map(t => `<tr class="${selected.has(t.id) ? 'selected' : ''}"><td><input type="checkbox" data-id="${escapeHtml(t.id)}" ${selected.has(t.id) ? 'checked' : ''}></td><td>${t.index}</td><td>${escapeHtml(t.id)}</td><td>${escapeHtml(t.surah_name)}</td><td>${t.from_ayah}–${t.to_ayah}</td><td>${t.juz}</td><td class="opening" title="${escapeHtml(t.opening)}">${escapeHtml(t.opening)}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">لا توجد نتائج.</td></tr>';
+      document.querySelectorAll('#taskRows input[data-id]').forEach(box => box.addEventListener('change', () => { box.checked ? selected.add(box.dataset.id) : selected.delete(box.dataset.id); renderRows(); updateSelection(); }));
+      updateSelection();
+    }
+    function updateSelection() { $('selectionCount').textContent = selected.size ? `تم تحديد ${selected.size} مقطع` : 'لم تحدد أي مقطع'; }
+    // Null-safe binding: every control below is optional as far as the page is
+    // concerned, so a renamed or removed input can never throw here and leave
+    // the main action buttons (which bind further down) without handlers.
+    function on(id, ev, fn) { const el = $(id); if (el) el.addEventListener(ev, fn); else console.warn('عنصر غير موجود:', id); }
+    const SLIDERS = [['bgDim','bgDimVal',v=>v+'%'],['fontSize','fontSizeVal',v=>v],['textBgOpacity','textBgOpVal',v=>v+'%'],['textBgPad','textBgPadVal',v=>Number(v).toFixed(2)],['textBgRadius','textBgRadVal',v=>Number(v).toFixed(2)],['shadowOpacity','shadowOpVal',v=>v+'%']];
+    SLIDERS.forEach(([id,out,fmt]) => on(id, 'input', () => { const o = $(out); if (o) o.textContent = fmt($(id).value); schedulePreview(); }));
+    ['font','textBgStyle','tashkeel','showNumber','stroke','shadow','textBg'].forEach(id => on(id, 'change', schedulePreview));
+    // Colour inputs fire 'change' only once the picker closes; 'input' keeps
+    // the preview following the swatch while it is being dragged.
+    ['textColor','textBgColor'].forEach(id => { on(id, 'input', schedulePreview); on(id, 'change', schedulePreview); });
+    document.querySelectorAll('input[name=pos]').forEach(el => el.addEventListener('change', schedulePreview));
+
+    // Every appearance control lives in this one object, which is sent both to
+    // the preview and to the batch — so what you tune is exactly what renders.
+    function styleSettings() {
+      return {
+        font: $('font').value,
+        font_size: Number($('fontSize').value),
+        text_color: $('textColor').value,
+        position: document.querySelector('input[name=pos]:checked').value,
+        tashkeel: $('tashkeel').checked,
+        show_number: $('showNumber').checked,
+        stroke: $('stroke').checked,
+        shadow: $('shadow').checked,
+        shadow_opacity: Number($('shadowOpacity').value),
+        text_bg: $('textBg').checked,
+        text_bg_color: $('textBgColor').value,
+        text_bg_style: $('textBgStyle').value,
+        text_bg_opacity: Number($('textBgOpacity').value),
+        text_bg_pad: Number($('textBgPad').value),
+        text_bg_radius: Number($('textBgRadius').value),
+      };
+    }
+    function settings() { return { reciter: $('reciter').value, background: $('background').value, animation: document.querySelector('input[name=animation]:checked').value, bg_dim: Number($('bgDim').value), bg_fit: $('bgFit').value, tafsir: $('tafsir').value, bg_continue: $('bgContinue').checked, bg_mode: $('bgMode').value, drive_upload: $('driveAuto').checked, topic: $('topic').value.trim(), ...styleSettings() }; }
+
+    // The background list doubles as a usage report: each video shows how much
+    // of it has already been spent, so it is obvious which clips still have
+    // unseen footage left before the next batch.
+    function clock(seconds) { const s = Math.max(0, Math.round(seconds)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; }
+    function renderBackgrounds(items) {
+      const selectedName = $('background').value;
+      $('background').innerHTML = '<option value="random">عشوائية من مجلد خلفيات</option>' + items.map(b => {
+        const used = b.type === 'video' && b.duration > 0 ? ` — استُهلك ${clock(b.cursor)} من ${clock(b.duration)}` : (b.cursor > 0 ? ' — مستخدمة' : '');
+        return `<option value="${escapeHtml(b.name)}">${escapeHtml(b.name)} (${b.type === 'video' ? 'فيديو' : 'صورة'})${escapeHtml(used)}</option>`;
+      }).join('');
+      if (selectedName) $('background').value = selectedName;
+      $('statBackgrounds').textContent = items.length;
+      const spent = items.filter(b => b.remaining <= (b.type === 'video' ? 5 : 0)).length;
+      $('bgUsage').textContent = items.length ? `${items.length - spent} خلفية فيها لقطات جديدة · ${spent} مستهلكة` : 'لا توجد خلفيات';
+    }
+    async function refreshBackgrounds() { try { renderBackgrounds((await getJson('/api/backgrounds')).backgrounds); } catch (error) {} }
+    async function resetBackgrounds() {
+      if (!confirm('تصفير مؤشرات الخلفيات؟ كل خلفية ستبدأ من أولها في الفيديو القادم.')) return;
+      try { await getJson('/api/reset_backgrounds', { method:'POST' }); await refreshBackgrounds(); } catch (error) { alert(error.message); }
+    }
+
+    // Drive publishing. The connect flow finishes in a browser tab, so the
+    // panel refreshes its state on the same poll that follows the engine log
+    // rather than waiting on the request that started it.
+    let driveReady = false;
+    let driveFilled = false;
+    function renderDrive(state) {
+      driveReady = !!state.connected;
+      $('driveState').textContent = state.connected
+        ? `مرتبط${state.email ? ' — ' + state.email : ''}`
+        : (state.configured ? 'الإعدادات محفوظة — لم يتم الربط بعد' : 'غير مرتبط');
+      // This panel is re-rendered on the same 1.8s poll as the engine status.
+      // Writing the stored values back into the inputs every time wiped out
+      // whatever the user was part-way through entering the moment focus left
+      // the box: a pasted Client ID vanished as soon as they clicked into the
+      // secret field, and the save that followed stored an empty id. Fill the
+      // boxes once on load, then never touch them again.
+      if (!driveFilled) {
+        $('driveRoot').value = state.root_folder || 'مُصحَف';
+        $('driveClientId').value = state.client_id || '';
+        $('driveAuto').checked = !!state.auto_upload;
+        driveFilled = true;
+      }
+      if (state.has_secret && !$('driveSecret').value) $('driveSecret').placeholder = '•••••••• (محفوظ)';
+      $('driveConnect').textContent = state.connected ? 'إعادة الربط' : 'ربط حساب Google';
+    }
+    async function refreshDrive() { try { renderDrive(await getJson('/api/drive/status')); } catch (error) {} }
+    async function saveDrive() {
+      const body = { root_folder: $('driveRoot').value.trim(), auto_upload: $('driveAuto').checked };
+      // A blank secret means "keep the stored one" rather than "erase it".
+      if ($('driveClientId').value.trim()) body.client_id = $('driveClientId').value.trim();
+      if ($('driveSecret').value) body.client_secret = $('driveSecret').value;
+      try { const state = await getJson('/api/drive/config', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) }); renderDrive(state); $('driveSecret').value = ''; return state; }
+      catch (error) { alert(error.message); }
+    }
+    $('driveSave').addEventListener('click', saveDrive);
+    $('driveAuto').addEventListener('change', saveDrive);
+    $('driveConnect').addEventListener('click', async () => { const state = await saveDrive(); if (state && !state.configured) { return alert('أدخل معرّف العميل (Client ID) وسر العميل (Client Secret) أولًا، ثم اضغط ربط.'); } try { await getJson('/api/drive/connect', { method:'POST' }); } catch (error) { alert(error.message); } });
+    $('driveDisconnect').addEventListener('click', async () => { try { renderDrive(await getJson('/api/drive/disconnect', { method:'POST' })); } catch (error) { alert(error.message); } });
+
+    let previewTimer;
+    function schedulePreview() { clearTimeout(previewTimer); previewTimer = setTimeout(runPreview, 350); }
+    async function runPreview() {
+      const body = { surah_number: Number($('previewSurah').value) || 1, ayah: Number($('previewAyah').value) || 1, background: $('background').value, bg_dim: Number($('bgDim').value), bg_fit: $('bgFit').value, ...styleSettings() };
+      try {
+        const data = await getJson('/api/preview', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+        $('previewImg').src = data.url; $('previewWrap').style.display = 'block'; $('previewErr').style.display = 'none';
+      } catch (error) { $('previewErr').textContent = error.message; $('previewErr').style.display = 'block'; }
+    }
+    $('previewBtn').addEventListener('click', runPreview);
+    ['previewSurah','previewAyah','background','bgFit'].forEach(id => on(id, 'change', schedulePreview));
+    async function startGeneration() {
+      const custom = $('customEnabled').checked ? { surah_number: Number($('customSurah').value), surah_name: $('customSurahName').value.trim() || 'سورة مختارة', from_ayah: Number($('fromAyah').value), to_ayah: Number($('toAyah').value) } : null;
+      if (!selected.size && !custom) return alert('اختر مقطعًا واحدًا على الأقل أو فعّل التوليد الحر.');
+      $('startBtn').disabled = true; $('stopBtn').disabled = false;
+      try { await getJson('/api/start', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({...settings(), task_ids:[...selected], custom_task:custom})}); poll(); } catch (error) { alert(error.message); $('startBtn').disabled = false; $('stopBtn').disabled = true; }
+    }
+    async function stopGeneration() { $('stopBtn').disabled = true; try { await getJson('/api/stop', {method:'POST'}); } catch (error) { alert(error.message); } }
+    async function poll() {
+      try { const s = await getJson('/api/status'); const value = Number(s.progress_percent || 0); $('progressBar').style.width = value + '%'; $('progressValue').textContent = value + '%'; $('currentTask').textContent = s.current_task_name || 'بانتظار البدء'; $('progressLabel').textContent = s.is_running ? `قيد التوليد (${s.current_index}/${s.total_tasks})` : (s.completed_tasks?.length ? 'اكتملت العملية' : 'جاهز'); $('startBtn').disabled = s.is_running; $('stopBtn').disabled = !s.is_running; $('logBox').textContent = (s.logs || []).join('\n') || 'بانتظار سجلات المحرك…'; $('logBox').scrollTop = $('logBox').scrollHeight; setEngine(true); renderUploads(s.drive_progress); if (!s.is_running) { await refreshGallery(); await refreshDrive(); if (wasRunning) { wasRunning = false; await refreshBackgrounds(); } } else { wasRunning = true; } } catch (error) { setEngine(false); } finally { clearTimeout(pollTimer); pollTimer = setTimeout(poll, 1800); }
+    }
+    function renderUploads(progress) {
+      const entries = progress || {};
+      document.querySelectorAll('[data-progress]').forEach(wrap => {
+        const item = entries[wrap.dataset.progress];
+        if (!item) { wrap.style.display = 'none'; return; }
+        wrap.style.display = 'block';
+        wrap.classList.toggle('is-error', item.state === 'error');
+        wrap.classList.toggle('is-done', item.state === 'done');
+        wrap.querySelector('.up-fill').style.width = (item.state === 'error' ? 100 : item.percent) + '%';
+        wrap.querySelector('.up-text').textContent =
+          item.state === 'done' ? 'تم الرفع إلى Drive ✓'
+          : item.state === 'error' ? ('فشل الرفع — ' + (item.message || ''))
+          : `جارٍ الرفع… ${item.percent}%  (${item.file})`;
+      });
+    }
+    function setEngine(online) { $('engineText').textContent = online ? 'المحرك متصل' : 'تعذر الاتصال'; document.querySelector('.dot').style.background = online ? 'var(--green)' : 'var(--red)'; }
+    // The gallery is refreshed on every status poll (~1.8s). Rebuilding its
+    // innerHTML would destroy and recreate each <video>, resetting whatever the
+    // user is watching back to 0:00 and making it reload forever — so only
+    // touch the DOM when the actual list of outputs has changed.
+    let gallerySignature = null;
+    // Background cursors only move when a batch finishes, so they are refetched
+    // on that transition rather than on every 1.8s poll.
+    let wasRunning = false;
+    async function refreshGallery() { try { const data = await getJson('/api/outputs'); $('statOutputs').textContent = data.outputs.length; const signature = data.outputs.map(o => `${o.filename}:${o.modified}:${o.size_mb}`).join('|'); if (signature === gallerySignature) return; gallerySignature = signature; $('gallery').innerHTML = data.outputs.length ? data.outputs.map(item => `<article class="video-card"><video controls preload="none" src="${item.url}"></video><div class="video-info"><div class="video-name" title="${escapeHtml(item.filename)}">${escapeHtml(item.filename)}</div><div class="video-actions"><a href="${item.url}" download style="flex:1"><button class="secondary" style="width:100%">تنزيل</button></a>${item.caption_url ? `<button class="ghost" data-caption="${item.caption_url}">نسخ الوصف</button>` : ''}<button class="ghost" data-upload="${escapeHtml(item.filename)}">رفع إلى Drive</button></div><div class="up-wrap" data-progress="${escapeHtml(item.filename)}"><div class="up-track"><div class="up-fill"></div></div><span class="up-text"></span></div></div></article>`).join('') : '<div class="empty" style="grid-column:1/-1">لا توجد فيديوهات منتجة بعد.</div>'; document.querySelectorAll('[data-caption]').forEach(button => button.addEventListener('click', async () => { const text = await (await fetch(button.dataset.caption)).text(); await navigator.clipboard.writeText(text); const old = button.textContent; button.textContent = 'تم النسخ'; setTimeout(() => button.textContent = old, 1200); }));
+      try { renderUploads((await getJson('/api/status')).drive_progress); } catch (error) {}
+      document.querySelectorAll('[data-upload]').forEach(button => button.addEventListener('click', async () => { if (!driveReady) return alert('اربط حساب Google Drive أولًا من لوحة النشر.'); const old = button.textContent; button.disabled = true; button.textContent = 'جارٍ الرفع…'; try { await getJson('/api/drive/upload', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ filename: button.dataset.upload }) }); } catch (error) { alert(error.message); } setTimeout(() => { button.disabled = false; button.textContent = old; }, 2500); })); } catch (error) {} }
+    async function openFolder(folder) { try { await getJson('/api/open_folder', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({folder})}); } catch (error) { alert(error.message); } }
+    $('search').addEventListener('input', renderRows); $('selectVisible').addEventListener('click', () => { filteredTasks.forEach(t => selected.add(t.id)); renderRows(); }); $('clearSelection').addEventListener('click', () => { selected.clear(); renderRows(); }); $('toggleAll').addEventListener('change', e => { if (e.target.checked) tasks.forEach(t => selected.add(t.id)); else selected.clear(); renderRows(); }); $('startBtn').addEventListener('click', startGeneration); $('stopBtn').addEventListener('click', stopGeneration); $('openOutput').addEventListener('click', () => openFolder('output')); $('openBackground').addEventListener('click', () => openFolder('خلفيات')); $('resetBackgrounds').addEventListener('click', resetBackgrounds); $('refreshGallery').addEventListener('click', refreshGallery);
+    boot();
+  </script>
+</body>
+</html>

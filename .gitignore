@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+env/
+.temp/
+temp/
+temp/audio/
+temp/text_cache/
+temp/cards/
+temp/segments/
+*.part
+
+# build output / packaging
+build/
+dist/
+*.zip
+*.exe
+
+# generated media & runtime state
+output/
+خلفيات/
+*.mp4
+*.mp3
+
+# secrets
+drive_config.json
